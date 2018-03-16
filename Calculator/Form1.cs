@@ -22,12 +22,14 @@ namespace Calculator {
         // Holds the starting milliseconds before the calculation takes place.
         private double startTime;
 
+        private bool lastIsNum = false;
+
         public Form1() {
             InitializeComponent();
         }
 
         // Recursive statement that allows calculation of segments of the list.
-        private float evaluate(List<string> commandList)
+        private double evaluate(List<string> commandList)
         {
             // Set our current precedence to the final value in the list.
             int currentPrecedence = precendenceList.Length - 1;
@@ -42,7 +44,6 @@ namespace Calculator {
                 {
                     // A flag, for when we need to start from the beginning of the command list again.
                     bool startOver = false;
-
                     // If we're currently calculating brackets.
                     if (precendenceList[currentPrecedence] == "(")
                     {
@@ -64,7 +65,7 @@ namespace Calculator {
                             }
 
                             // Recursively call our evaluate function with the new sublist.
-                            float val = evaluate(subList);
+                            double val = evaluate(subList);
                             // Remove the range of values from the starting bracket, to the closing.
                             commandList.RemoveRange(startIndex, i - startIndex + 1);
                             // Insert our new value at the startIndex.
@@ -82,11 +83,13 @@ namespace Calculator {
 
                             /* Otherwise, calculate the value based on the operator
                              * Here, we pass the digit before the operator, and the digit after, to our evaluationSection function. */
-                            float newVal;
+                            double newVal;
+                            // Error handling, for if no number is inputted, or there is an error in the
+                            // given equation.
                             try
                             {
-                                newVal = EvaluateSection(float.Parse(commandList[i - 1]),
-                                    float.Parse(commandList[i + 1]), c.ToString());
+                                newVal = EvaluateSection(double.Parse(commandList[i - 1]),
+                                    double.Parse(commandList[i + 1]), c.ToString());
                             }
                             catch (Exception e)
                             {
@@ -98,7 +101,7 @@ namespace Calculator {
                             // Insert the new value at the index given.
                             commandList.Insert(i - 1, newVal.ToString());
                             // We need to decrement i, since we have operated and removed values from the command list.
-                            i--;
+                            startOver = true;
                             // We've found and operated on the found precedence, so we don't need to search anymore.
                             break;
                         }
@@ -122,7 +125,7 @@ namespace Calculator {
             }
         }
 
-        private static float EvaluateSection(float n1, float n2, string op)
+        private static double EvaluateSection(double n1, double n2, string op)
         {
             // Compute based on the passed operator.
             switch (op)
@@ -136,7 +139,7 @@ namespace Calculator {
                 case "/":
                     return n1 / n2;
                 case "^":
-                    return (float)Math.Pow(n1, n2);
+                    return Math.Pow(n1, n2);
             }
 
             return 0;
@@ -151,19 +154,45 @@ namespace Calculator {
             if (c == "=")
             {
                 startTime = DateTime.Now.Millisecond; // This is to measure how long the calculation takes.
-                float result = evaluate(commandList); // We get the final recursive result from our evaluation function.
+                double result = evaluate(commandList); // We get the final recursive result from our evaluation function.
                 label1.Text = result.ToString(); // We set the display to our calculated value.
                 // Final measurement in seconds of the time taken.
                 label2.Text = ($@"Calculated in: {((DateTime.Now.Millisecond - startTime) / 1000)} s");
                 return; // We don't need to go any further.
             }
 
-            // Add the inputted value to our commandList.
-            commandList.Add(c);
-            // Add the current input to our displayed string.
-            currentLabelString += c + "";
+            // Test if the current input is a number.
+            if (isNum(c))
+            {
+                // If it is, and the last input is a number.
+                if (lastIsNum)
+                {
+                    // Then we append the previous command with our new number.
+                    commandList[commandList.Count - 1] += c;
+                } else
+                {
+                    // Otherwise, we add the new command to the list.
+                    commandList.Add(c);
+                }
+
+                lastIsNum = true;
+            } else
+            {
+                // If we input an operator, then the last input is no longer a number, so we set the flag
+                // to false.
+                lastIsNum = false;
+                // Add the operator to our commandList.
+                commandList.Add(c);
+            }
+
             // Set the displayed string.
-            label1.Text = currentLabelString;
+            label1.Text = String.Join("", commandList);
+        }
+
+        private bool isNum(string c)
+        {
+            double val;
+            return double.TryParse(c, out val);
         }
 
         public void Button16_Click(object sender, EventArgs e)
@@ -175,12 +204,5 @@ namespace Calculator {
             commandList.Clear();
         }
 
-        private void Form1_Load(object sender, EventArgs e) {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e) {
-
-        }
     }
 }

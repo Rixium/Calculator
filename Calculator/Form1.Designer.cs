@@ -47,9 +47,6 @@ namespace Calculator {
             this.button19 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
-
-            MaximizeBox = false;
-            
             // 
             // button1
             // 
@@ -265,14 +262,13 @@ namespace Calculator {
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(12, 26);
             this.label1.MaximumSize = new System.Drawing.Size(1000, 1000);
             this.label1.Name = "label1";
             this.label1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label1.Size = new System.Drawing.Size(216, 78);
+            this.label1.Size = new System.Drawing.Size(215, 78);
             this.label1.TabIndex = 14;
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // button15
             // 
@@ -361,7 +357,7 @@ namespace Calculator {
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(240, 411);
+            this.ClientSize = new System.Drawing.Size(239, 410);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button19);
             this.Controls.Add(this.button18);
@@ -384,9 +380,9 @@ namespace Calculator {
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Calculator Extreme Pro 18";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
