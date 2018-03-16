@@ -82,8 +82,16 @@ namespace Calculator {
 
                             /* Otherwise, calculate the value based on the operator
                              * Here, we pass the digit before the operator, and the digit after, to our evaluationSection function. */
-                            var newVal = EvaluateSection(float.Parse(commandList[i - 1]),
-                                float.Parse(commandList[i + 1]), c.ToString());
+                            float newVal;
+                            try
+                            {
+                                newVal = EvaluateSection(float.Parse(commandList[i - 1]),
+                                    float.Parse(commandList[i + 1]), c.ToString());
+                            }
+                            catch (Exception e)
+                            {
+                                return 0;
+                            }
 
                             // We remove the operator and the 2 numbers.
                             commandList.RemoveRange(i - 1, 3);
@@ -104,7 +112,14 @@ namespace Calculator {
             }
 
             // Once all the commands have been calculated, and we're left with a single value in the command list, pass it back.
-            return float.Parse(commandList[0]);
+            try
+            {
+                return float.Parse(commandList[0]);
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
         }
 
         private static float EvaluateSection(float n1, float n2, string op)
@@ -160,5 +175,12 @@ namespace Calculator {
             commandList.Clear();
         }
 
+        private void Form1_Load(object sender, EventArgs e) {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e) {
+
+        }
     }
 }
