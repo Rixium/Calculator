@@ -10,6 +10,8 @@ namespace Calculator {
     public partial class Form1 : Form
     {
 
+        public string testString = "3+((4+6)*9/(2-16+8*(3^2+7)))/3*6*4-7=";
+
         // Stores all the inputted digits and operators.
         private List<string> commandList = new List<string>();
 
@@ -26,6 +28,14 @@ namespace Calculator {
 
         public Form1() {
             InitializeComponent();
+
+            
+            for (int i = 0; i < testString.Length; i++)
+            {
+                Button b = new Button();
+                b.Text = testString[i] + "";
+                ButtonManager(b, null);
+            }
         }
 
         // Recursive statement that allows calculation of segments of the list.
@@ -33,7 +43,7 @@ namespace Calculator {
         {
             // Set our current precedence to the final value in the list.
             int currentPrecedence = precendenceList.Length - 1;
-
+            
             // If the commandList contains more than 1 value, then calculations must take place.
             while (commandList.Count > 1 && currentPrecedence >= 0)
             {
@@ -68,13 +78,14 @@ namespace Calculator {
                             double val = evaluate(subList);
                             // Remove the range of values from the starting bracket, to the closing.
                             commandList.RemoveRange(startIndex, i - startIndex + 1);
+
                             // Insert our new value at the startIndex.
                             commandList.Insert(startIndex, val.ToString());
+                            Console.WriteLine("NEW COMMAND LIST: " + String.Join("", commandList));
                             // Set our flag to start the loop again.
-                            startOver = true;
+                            i = -1;
                         }
                     } else { // If we're no longer checking for brackets.
-
                         // Iterate through the current precedence string, since some precedences are paired.
                         foreach (var c in precendenceList[currentPrecedence])
                         {
@@ -84,6 +95,7 @@ namespace Calculator {
                             /* Otherwise, calculate the value based on the operator
                              * Here, we pass the digit before the operator, and the digit after, to our evaluationSection function. */
                             double newVal;
+
                             // Error handling, for if no number is inputted, or there is an error in the
                             // given equation.
                             try
@@ -101,13 +113,12 @@ namespace Calculator {
                             // Insert the new value at the index given.
                             commandList.Insert(i - 1, newVal.ToString());
                             // We need to decrement i, since we have operated and removed values from the command list.
-                            startOver = true;
+                            i = 0;
                             // We've found and operated on the found precedence, so we don't need to search anymore.
                             break;
                         }
                     }
                     // If startOver is true, then we reset the loop, incase of missed and altered values.
-                    if (startOver) i = 0;
                 }
 
                 // Finally, after we've checked the currentPrecedence, we decrement it, and restart the loops.
@@ -117,7 +128,7 @@ namespace Calculator {
             // Once all the commands have been calculated, and we're left with a single value in the command list, pass it back.
             try
             {
-                return float.Parse(commandList[0]);
+                return double.Parse(commandList[0]);
             }
             catch (Exception e)
             {
@@ -199,10 +210,29 @@ namespace Calculator {
         {
             // This is the reset button, we just need to reset the displayed string, and clear the commandList.
             currentLabelString = "";
+            lastIsNum = false;
             label2.Text = "";
             label1.Text = currentLabelString;
             commandList.Clear();
         }
 
+        private void button20_Click(object sender, EventArgs e) {
+            if (commandList.Count > 0)
+            {
+                commandList.RemoveAt(commandList.Count - 1);
+
+                if (commandList.Count > 0)
+                {
+                    lastIsNum = isNum(commandList[commandList.Count - 1]);
+                }
+                else
+                {
+                    lastIsNum = false;
+                }
+
+                // Set the displayed string.
+                label1.Text = String.Join("", commandList);
+            }
+        }
     }
 }

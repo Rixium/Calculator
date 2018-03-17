@@ -46,6 +46,7 @@ namespace Calculator {
             this.button18 = new System.Windows.Forms.Button();
             this.button19 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.button20 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -279,7 +280,7 @@ namespace Calculator {
             this.button15.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button15.Location = new System.Drawing.Point(123, 351);
             this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(106, 50);
+            this.button15.Size = new System.Drawing.Size(50, 50);
             this.button15.TabIndex = 15;
             this.button15.Text = "=";
             this.button15.UseVisualStyleBackColor = false;
@@ -353,11 +354,27 @@ namespace Calculator {
             this.label2.Size = new System.Drawing.Size(0, 13);
             this.label2.TabIndex = 20;
             // 
+            // button20
+            // 
+            this.button20.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(230)))), ((int)(((byte)(230)))));
+            this.button20.FlatAppearance.BorderSize = 0;
+            this.button20.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(190)))), ((int)(((byte)(190)))));
+            this.button20.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(210)))), ((int)(((byte)(210)))));
+            this.button20.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button20.Location = new System.Drawing.Point(179, 351);
+            this.button20.Name = "button20";
+            this.button20.Size = new System.Drawing.Size(50, 50);
+            this.button20.TabIndex = 21;
+            this.button20.Text = "CE";
+            this.button20.UseVisualStyleBackColor = false;
+            this.button20.Click += new System.EventHandler(this.button20_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(239, 410);
+            this.Controls.Add(this.button20);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button19);
             this.Controls.Add(this.button18);
@@ -411,6 +428,7 @@ namespace Calculator {
         private System.Windows.Forms.Button button19;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private Button button20;
     }
 }
 
